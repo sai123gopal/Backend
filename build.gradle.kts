@@ -26,7 +26,7 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 
 	implementation("io.jsonwebtoken:jjwt:0.12.5")
-
+	implementation("io.github.cdimascio:dotenv-java:3.0.0")
 
 }
 

@@ -1,8 +1,10 @@
 package com.saigopa.travel.Travel.Models.Feed;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.saigopa.travel.Travel.Models.Location;
@@ -11,6 +13,8 @@ import com.saigopa.travel.Travel.Models.Location;
 public class PlacesDetails {
     @Id
     String id;
+    @Indexed(unique = true)
+    String placeId;
     String name;
     String address;
     String country;
@@ -25,6 +29,10 @@ public class PlacesDetails {
     String mapLink;
     String thumbnailImageUrl;
     String thumbnailSquareImageUrl;
+    Date createdAt;
+    Date updatedAt;
+    String status;
+    PlaceImages placeImages;
 
     public String getId() {
         return id;
@@ -137,5 +145,56 @@ public class PlacesDetails {
     public void setThumbnailSquareImageUrl(String thumbnailSquareImageUrl) {
         this.thumbnailSquareImageUrl = thumbnailSquareImageUrl;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
+    public PlaceImages getPlaceImages() {
+        return placeImages;
+    }
+
+    public void setPlaceImages(PlaceImages placeImages) {
+        this.placeImages = placeImages;
+    }
+
+    
+    
 
 }
