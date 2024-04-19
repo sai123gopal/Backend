@@ -19,6 +19,7 @@ import com.saigopa.travel.Travel.Models.User.SignUpModel;
 import com.saigopa.travel.Travel.Models.User.UserDataModel;
 import com.saigopa.travel.Travel.Repositories.UsersDbRepo;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -109,10 +110,11 @@ public class UserServices {
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.socketFactory.fallback", "false");
         props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.properties.mail.debug", "false");
 
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        sender.setUsername("saigopal.lingireddy@gmail.com");
-        sender.setPassword("sejz swtj yzgv myxg");
+        sender.setUsername(Dotenv.load().get("mail_id"));
+        sender.setPassword(Dotenv.load().get("mail_password"));
         sender.setJavaMailProperties(props);
 
         MimeMessage message = sender.createMimeMessage();
