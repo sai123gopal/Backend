@@ -1,25 +1,25 @@
 package com.saigopa.travel.Travel.Models;
 
+import java.util.Date;
+
 public class BaseResponse {
     Boolean status;
     String message;
     Object data = null;
-    
+    Date serverTime;
 
     public BaseResponse(Boolean status, String message) {
         this.status = status;
         this.message = message;
+        this.serverTime = new Date();
     }
-
-    
 
     public BaseResponse(Boolean status, String message, Object data) {
         this.status = status;
         this.message = message;
         this.data = data;
+        this.serverTime = new Date();
     }
-
-
 
     public Boolean getStatus() {
         return status;

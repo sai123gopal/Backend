@@ -1,5 +1,7 @@
 package com.saigopa.travel.Travel.Services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpEntity;
@@ -32,6 +34,10 @@ public class PlacesServices {
 
     public PlacesDetails getPlaceByName(String name){
         return placesDbRepo.findByPlaceName(name);
+    }
+
+    public List<PlacesDetails> getAllPlaces(){
+        return placesDbRepo.findAll();
     }
 
     public PlaceImages updateImageUrls(String placeName) {

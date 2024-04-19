@@ -8,14 +8,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.saigopa.travel.Travel.Models.BaseResponse;
 import com.saigopa.travel.Travel.Models.Feed.PlacesDetails;
 import com.saigopa.travel.Travel.Services.PlacesServices;
+import com.saigopa.travel.Travel.Services.UserServices;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 public class PlacesRoutes {
 
     @Autowired
     PlacesServices placeServices;
+    
+    @Autowired 
+    UserServices userServices;
 
     @PostMapping("/addPlace")
     public BaseResponse postAddPlace(@RequestBody PlacesDetails details) {
@@ -32,5 +40,15 @@ public class PlacesRoutes {
 
         return new BaseResponse(true, "Updated");
     }
+
+    @GetMapping("/getAllPlaces")
+    public BaseResponse getAllPlaces(@RequestHeader("Authorization") String token) {
+        try{
+            return new BaseResponse(true,"Places",placeServices.getAllPlaces());
+        }catch(Exception e){
+            return new BaseResponse(false,e.getMessage());
+        }
+    }
+    
 
 }
