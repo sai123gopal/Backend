@@ -27,8 +27,6 @@ public class PlacesDetails {
     ArrayList<String> tags;
     String type;
     String mapLink;
-    String thumbnailImageUrl;
-    String thumbnailSquareImageUrl;
     Date createdAt;
     Date updatedAt;
     String status;
@@ -129,23 +127,6 @@ public class PlacesDetails {
     public void setMapLink(String mapLink) {
         this.mapLink = mapLink;
     }
-
-    public String getThumbnailImageUrl() {
-        return thumbnailImageUrl;
-    }
-
-    public void setThumbnailImageUrl(String thumbnailImageUrl) {
-        this.thumbnailImageUrl = thumbnailImageUrl;
-    }
-
-    public String getThumbnailSquareImageUrl() {
-        return thumbnailSquareImageUrl;
-    }
-
-    public void setThumbnailSquareImageUrl(String thumbnailSquareImageUrl) {
-        this.thumbnailSquareImageUrl = thumbnailSquareImageUrl;
-    }
-
     public String getType() {
         return type;
     }

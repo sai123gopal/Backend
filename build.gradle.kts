@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.saigopa.travel"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.1-SNAPSHOT"
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
@@ -27,7 +27,7 @@ dependencies {
 
 	implementation ("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("io.jsonwebtoken:jjwt:0.12.5")
-	implementation("io.github.cdimascio:dotenv-java:3.0.0")
+	implementation ("com.okta.spring:okta-spring-boot-starter:3.0.6")
 
 }
 

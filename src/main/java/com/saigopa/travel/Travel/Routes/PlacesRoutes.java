@@ -27,18 +27,21 @@ public class PlacesRoutes {
 
     @PostMapping("/addPlace")
     public BaseResponse postAddPlace(@RequestBody PlacesDetails details) {
-
-        if (placeServices.getPlaceByName(details.getName()) != null) {
-            return new BaseResponse(false, "Place name already exists");
+        try{
+            if (placeServices.getPlaceByName(details.getName()) != null) {
+                return new BaseResponse(false, "Place name already exists");
+            }
+    
+            details.setPlaceImages(placeServices.updateImageUrls(details.getName()));
+    
+            details.setCreatedAt(new Date());
+            details.setUpdatedAt(new Date());
+            placeServices.saveNewPlaceData(details);
+    
+            return new BaseResponse(true, "Updated");
+        }catch(Exception e){
+            return new BaseResponse(false, "Error : "+e.getMessage());
         }
-
-        details.setPlaceImages(placeServices.updateImageUrls(details.getName()));
-
-        details.setCreatedAt(new Date());
-        details.setUpdatedAt(new Date());
-        placeServices.saveNewPlaceData(details);
-
-        return new BaseResponse(true, "Updated");
     }
 
     @GetMapping("/getAllPlaces")

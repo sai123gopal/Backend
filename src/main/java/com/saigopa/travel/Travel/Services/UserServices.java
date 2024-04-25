@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -11,15 +12,12 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.mongodb.client.result.UpdateResult;
 import com.saigopa.travel.Travel.Helpers.JwtUtil;
 import com.saigopa.travel.Travel.Models.User.SignUpModel;
 import com.saigopa.travel.Travel.Models.User.UserDataModel;
 import com.saigopa.travel.Travel.Repositories.UsersDbRepo;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
@@ -30,6 +28,12 @@ public class UserServices {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
+    @Value("${mail_password}")
+    public String emailPassword;
+
+    @Value("${mail_id}")
+    public String emailId;
 
     public UserDataModel getUserDetailsFromToken(String bearerToken) throws Exception {
         String token = bearerToken.substring(7);
@@ -113,17 +117,16 @@ public class UserServices {
         props.put("mail.properties.mail.debug", "false");
 
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        sender.setUsername(Dotenv.load().get("mail_id"));
-        sender.setPassword(Dotenv.load().get("mail_password"));
+        sender.setUsername(emailId);
+        sender.setPassword(emailPassword);
         sender.setJavaMailProperties(props);
 
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setTo("sai.gopalsai143@gmail.com");
+        helper.setTo(userData.getEmail());
         helper.setSubject("Verify Email Id for Travel app");
         helper.setText(
-                "Hi " + userData.getFirstName() + "\nPlease verify email Id before loging In \n\n" + "Link : " +
-                        ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString() + "/verifyEmail?id="
+                "Hello " + userData.getFirstName() + "\n\nPlease verify email Id before logging In\n\n" + "Link : https://travel-app-test.onrender.com" + "/verifyEmail?id="
                         + userData.getId() + "\n\n Thank you");
 
         sender.send(message);

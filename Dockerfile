@@ -5,7 +5,7 @@ FROM openjdk:17-jdk
 WORKDIR /app
 
 # Copy the packaged Spring Boot application JAR file into the container
-COPY build/libs/Travel-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY build/libs/Travel-1.0.1-SNAPSHOT.jar /app/app.jar
 
 # Expose port 8080 to the outside world
 EXPOSE 8080

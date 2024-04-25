@@ -53,7 +53,7 @@ public class UserRoutes {
             userServices.saveSignUpUserData(signUpDetails);
             return new BaseResponse(true, "SignUp successful");
         } catch (Exception e) {
-            return new BaseResponse(false, "An error occurred during sign-up");
+            return new BaseResponse(false, "An error occurred during sign-up"+e.getMessage());
         }
     }
 
