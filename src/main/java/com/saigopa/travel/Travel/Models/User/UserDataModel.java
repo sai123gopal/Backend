@@ -7,29 +7,32 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.saigopa.travel.Travel.Models.Location;
+
 @Document(value = "Users")
 public class UserDataModel {
 
     @Id
     String id;
-
     @Indexed(unique = true)
     String email;
-    String firstName;
-    String lastName;
     @Indexed(unique = true)
     String referalCode;
     String userType;
-    String password;
     @CreatedDate
     Date createdAt;
-    Date birthDate;
-    Date updatedAt;
-    String deviceData;
     String referedBy;
     Boolean isEmailVerified;
     String JWTToken;
 
+    public String firstName;
+    public String lastName;
+    public String password;
+    public Date birthDate;
+    public Date updatedAt;
+    public String deviceData;
+    public String lastKnownLocationName;
+    public Location userLocation;
     
 
     public String getId() {

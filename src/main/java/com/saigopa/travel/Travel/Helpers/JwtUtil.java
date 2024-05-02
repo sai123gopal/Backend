@@ -9,7 +9,7 @@ import io.jsonwebtoken.*;
 public class JwtUtil {
 
     private static SecretKey key = Jwts.SIG.HS256.key().build();
-    private static final long EXPIRATION_TIME = 864_000_000; // 10 days
+    private static final long EXPIRATION_TIME = 1296000000; //15 days
 
     public static String generateToken(String userId) {
         return Jwts.builder()

@@ -1,5 +1,6 @@
 package com.saigopa.travel.Travel.Services;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Properties;
 
@@ -86,23 +87,51 @@ public class UserServices {
 
     }
 
-    public void updateEmailVerified(String userId) throws Exception{
-       try{
-        Query query = new Query(Criteria.where("_id").is(userId));
-        Update update = new Update();
-        update.set("isEmailVerified", true);
-        update.set("updatedAt", new Date());
+    public void updateEmailVerified(String userId) throws Exception {
+        try {
+            Query query = new Query(Criteria.where("_id").is(userId));
+            Update update = new Update();
+            update.set("isEmailVerified", true);
+            update.set("updatedAt", new Date());
 
-        UpdateResult result = mongoTemplate.updateFirst(query, update, UserDataModel.class);
-        if (result == null) {
-            throw new Exception("Verification failed");
-        }
-       }catch(Exception e){
+            UpdateResult result = mongoTemplate.updateFirst(query, update, UserDataModel.class);
+            if (result == null) {
+                throw new Exception("Verification failed");
+            }
+        } catch (Exception e) {
             throw e;
-       }
+        }
     }
 
-    public void sendVerificationEmail(UserDataModel userData) throws Exception{
+    public void updateUserData(UserDataModel userDataModel) throws Exception {
+        try {
+            Query query = new Query(Criteria.where("_id").is(userDataModel.getId()));
+            Update update = new Update();
+
+            Field[] fields = UserDataModel.class.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true); // Ensure private fields can be accessed
+                Object value = field.get(userDataModel);
+                if (value != null) {
+                    update.set(field.getName(), value);
+                }
+            }
+
+            update.currentDate("updatedAt");
+
+            mongoTemplate.updateMulti(query, update, UserDataModel.class, "Users");
+
+            UpdateResult result = mongoTemplate.updateFirst(query, update, UserDataModel.class);
+            if (result == null) {
+                throw new Exception("Updation failed : " + result);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
+
+    public void sendVerificationEmail(UserDataModel userData) throws Exception {
         Properties props = new Properties();
 
         props.setProperty("mail.transport.protocol", "smtp");
@@ -126,7 +155,8 @@ public class UserServices {
         helper.setTo(userData.getEmail());
         helper.setSubject("Verify Email Id for Travel app");
         helper.setText(
-                "Hello " + userData.getFirstName() + "\n\nPlease verify email Id before logging In\n\n" + "Link : https://travel-app-test.onrender.com" + "/verifyEmail?id="
+                "Hello " + userData.getFirstName() + "\n\nPlease verify email Id before logging In\n\n"
+                        + "Link : https://travel-app-test.onrender.com" + "/verifyEmail?id="
                         + userData.getId() + "\n\n Thank you");
 
         sender.send(message);

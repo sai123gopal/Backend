@@ -8,6 +8,7 @@ import com.saigopa.travel.Travel.Services.UserServices;
 
 import jakarta.validation.Valid;
 
+import org.aspectj.weaver.patterns.ExposedState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,6 +116,27 @@ public class UserRoutes {
         }
 
         return new BaseResponse(true, "Profile data", user);
+    }
+
+    @PostMapping("/updateProfile")
+    public BaseResponse updateProfile(@RequestHeader("Authorization") String token,@RequestBody UserDataModel dataModel){
+       try{
+        UserDataModel user;
+        try {
+            user = userServices.getUserDetailsFromToken(token);
+        } catch (Exception e) {
+            return new BaseResponse(false, e.getMessage());
+        }
+        if (user == null) {
+            return new BaseResponse(false, "Profile not found Please login again");
+        }
+
+        userServices.updateUserData(dataModel);
+        return new BaseResponse(true, "User details updated");
+       }catch(Exception e){
+        return new BaseResponse(false, "error : "+e.getMessage());
+
+       }
     }
 
 
