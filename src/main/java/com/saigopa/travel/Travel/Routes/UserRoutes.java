@@ -8,7 +8,6 @@ import com.saigopa.travel.Travel.Services.UserServices;
 
 import jakarta.validation.Valid;
 
-import org.aspectj.weaver.patterns.ExposedState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
