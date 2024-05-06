@@ -69,13 +69,17 @@ public class UserServices {
         }
     }
 
-    public void saveLoginUserData(UserDataModel userData) throws Exception {
+    public void saveLoginUserData(UserDataModel userData,String fcmToken) throws Exception {
         try {
             userData.setJWTToken(JwtUtil.generateToken(userData.getId()));
+            userData.setFCMToken(fcmToken);
+            userData.setUpdatedAt(new Date());
+
             Query query = new Query(Criteria.where("_id").is(userData.getId()));
             Update update = new Update();
+            update.set("FCMToken", userData.getFCMToken());
             update.set("JWTToken", userData.getJWTToken());
-            update.set("updatedAt", new Date());
+            update.set("updatedAt", userData.getUpdatedAt());
 
             UpdateResult result = mongoTemplate.updateFirst(query, update, UserDataModel.class);
             if (result == null) {
@@ -103,14 +107,17 @@ public class UserServices {
         }
     }
 
-    public void updateUserData(UserDataModel userDataModel) throws Exception {
+    public void updateUserData(UserDataModel userDataModel,String userID) throws Exception {
         try {
-            Query query = new Query(Criteria.where("_id").is(userDataModel.getId()));
+            Query query = new Query(Criteria.where("_id").is(userID));
             Update update = new Update();
 
             Field[] fields = UserDataModel.class.getDeclaredFields();
             for (Field field : fields) {
-                field.setAccessible(true); // Ensure private fields can be accessed
+                field.setAccessible(true);
+                if(field.getName() == "id" || field.getName() == "createdAt" || field.getName() == "referalCode"){
+                    continue;
+                }
                 Object value = field.get(userDataModel);
                 if (value != null) {
                     update.set(field.getName(), value);

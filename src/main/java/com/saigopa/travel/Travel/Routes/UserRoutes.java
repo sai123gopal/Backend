@@ -59,7 +59,7 @@ public class UserRoutes {
     }
 
     @GetMapping("/login")
-    public BaseResponse loginUser(@RequestParam("email") String email, @RequestParam("password") String password) {
+    public BaseResponse loginUser(@RequestParam("email") String email, @RequestParam("password") String password,@RequestParam("FCMToken") String fcmToken) {
 
         try {
             if (email == null || email.isEmpty()) {
@@ -68,6 +68,10 @@ public class UserRoutes {
 
             if (password == null || password.isEmpty()) {
                 return new BaseResponse(false, "Password is empty");
+            }
+
+            if(fcmToken == null || fcmToken.isEmpty()){
+                return new BaseResponse(false, "FCMToken is empty");
             }
 
             UserDataModel userData = userServices.getUserByEmail(email);
@@ -84,7 +88,7 @@ public class UserRoutes {
                 return new BaseResponse(false, "Please Verify emailID first");
             }
 
-            userServices.saveLoginUserData(userData);
+            userServices.saveLoginUserData(userData,fcmToken);
             return new BaseResponse(true, "Login successful", userData);
         } catch (Exception e) {
             return new BaseResponse(false, "An error occurred during Login error " + e);
@@ -124,14 +128,15 @@ public class UserRoutes {
         UserDataModel user;
         try {
             user = userServices.getUserDetailsFromToken(token);
+            if (user == null) {
+                return new BaseResponse(false, "Profile not found Please login again");
+            }
         } catch (Exception e) {
             return new BaseResponse(false, e.getMessage());
         }
-        if (user == null) {
-            return new BaseResponse(false, "Profile not found Please login again");
-        }
+    
 
-        userServices.updateUserData(dataModel);
+        userServices.updateUserData(dataModel,user.getId());
         return new BaseResponse(true, "User details updated");
        }catch(Exception e){
         return new BaseResponse(false, "error : "+e.getMessage());
