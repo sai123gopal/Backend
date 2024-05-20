@@ -41,7 +41,7 @@ public class PlacesServices {
         return placesDbRepo.findAll();
     }
 
-    public PlaceImages updateImageUrls(String placeName) {
+    public PlaceImages updateImageUrls(String placeName){
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization", pexelsApiKey);
@@ -52,7 +52,11 @@ public class PlacesServices {
                     "https://api.pexels.com/v1/search?query=" + placeName + "&per_page=1",
                     HttpMethod.GET, entity, PexelsResponse.class);
 
-            return response.getBody().getPhotos().get(0).getSrc();
+                    if(response.getBody() != null){
+                        return response.getBody().getPhotos().get(0).getSrc();
+                    }else{
+                       return new PlaceImages();
+                    }
         } catch (Exception e) {
             throw e;
         }

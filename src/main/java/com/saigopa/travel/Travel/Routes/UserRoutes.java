@@ -143,6 +143,8 @@ public class UserRoutes {
        }
     }
 
-
-
+    @GetMapping("/")
+    public String empty(){
+        return new String("Hello world");
+    }
 }

@@ -81,10 +81,8 @@ public class UserServices {
             update.set("JWTToken", userData.getJWTToken());
             update.set("updatedAt", userData.getUpdatedAt());
 
-            UpdateResult result = mongoTemplate.updateFirst(query, update, UserDataModel.class);
-            if (result == null) {
-                throw new Exception("Update failed");
-            }
+            mongoTemplate.updateFirst(query, update, UserDataModel.class);
+            
         } catch (Exception e) {
             throw e;
         }
@@ -98,10 +96,7 @@ public class UserServices {
             update.set("isEmailVerified", true);
             update.set("updatedAt", new Date());
 
-            UpdateResult result = mongoTemplate.updateFirst(query, update, UserDataModel.class);
-            if (result == null) {
-                throw new Exception("Verification failed");
-            }
+            mongoTemplate.updateFirst(query, update, UserDataModel.class);
         } catch (Exception e) {
             throw e;
         }
@@ -128,10 +123,7 @@ public class UserServices {
 
             mongoTemplate.updateMulti(query, update, UserDataModel.class, "Users");
 
-            UpdateResult result = mongoTemplate.updateFirst(query, update, UserDataModel.class);
-            if (result == null) {
-                throw new Exception("Updation failed : " + result);
-            }
+            mongoTemplate.updateFirst(query, update, UserDataModel.class);
         } catch (Exception e) {
             throw e;
         }
