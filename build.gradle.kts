@@ -29,6 +29,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt:0.12.5")
 	implementation ("com.okta.spring:okta-spring-boot-starter:3.0.6")
 	implementation ("dev.akkinoc.spring.boot:logback-access-spring-boot-starter:4.1.1")
+	implementation ("org.json:json:20230227")
 
 }
 

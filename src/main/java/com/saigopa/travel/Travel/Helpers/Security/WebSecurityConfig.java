@@ -1,6 +1,5 @@
 package com.saigopa.travel.Travel.Helpers.Security;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +15,7 @@ public class WebSecurityConfig{
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/**", "/login","/signUp","/addPlace","/verifyEmail","signUp").permitAll()
+				.requestMatchers("/**", "/login","/signUp","/addPlace","createOrder","/createOrder","/verifyEmail","signUp").permitAll()
 				.anyRequest().authenticated()
 			)
 			.csrf(AbstractHttpConfigurer::disable)
