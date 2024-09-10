@@ -1,6 +1,5 @@
 package com.saigopa.travel.Travel.Routes;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +77,7 @@ public class PlacesRoutes {
         try {
             // Create the request body JSON
             JSONObject requestBody = new JSONObject();
-            requestBody.put("amount", orderRequest.getAmount());
+            requestBody.put("amount", orderRequest.getAmount() * 100);
             requestBody.put("currency", orderRequest.getCurrency());
             requestBody.put("receipt", orderRequest.getReceipt());
 
