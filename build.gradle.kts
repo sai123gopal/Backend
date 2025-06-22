@@ -31,6 +31,8 @@ dependencies {
 	implementation ("dev.akkinoc.spring.boot:logback-access-spring-boot-starter:4.1.1")
 	implementation ("org.json:json:20230227")
 
+	implementation ("com.google.firebase:firebase-admin:9.3.0")
+
 }
 
 tasks.withType<Test> {
